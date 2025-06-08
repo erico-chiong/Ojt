@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if item %}Edit{% else %}Create{% endif %} Item</title>
+</head>
+<body>
+    <h1>{% if item %}Edit{% else %}Create{% endif %} Item</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Name:</label><br>
+        <input type="text" name="name" value="{{ item.name|default:'' }}" required><br>
+        <label>Description:</label><br>
+        <textarea name="description">{{ item.description|default:'' }}</textarea><br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'item_list' %}">Back to List</a>
+</body>
+</html>
