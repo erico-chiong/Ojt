@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Item
+from django.db import models
 
 # List all items
 
@@ -41,4 +42,13 @@ def item_delete(request, pk):
 # Create your views here.
 
 def home(request):
-    return HttpResponse("Welcome to the home page!")
+   return render(request, 'pages/home.html')
+
+def search(request):
+    query = request.GET.get('q', '')
+    results = None
+    if query:
+        results = Item.objects.filter(
+            models.Q(name__icontains=query) | models.Q(description__icontains=query)
+        )
+    return render(request, 'pages/search.html', {'results': results, 'request': request})
