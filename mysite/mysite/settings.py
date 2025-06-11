@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages',
     'tailwind',
-    # 'theme',  # Add this back after running 'python manage.py tailwind init theme'
+    'theme', 
 ]
 
 MIDDLEWARE = [
@@ -126,3 +126,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TAILWIND_APP_NAME = 'theme'
+
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
