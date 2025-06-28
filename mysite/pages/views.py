@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Item, Memorandum, TravelOrder, SpecialOrder, CommunicationLetter, MOAU, MOAUParties, MOAUSignatories
 from django.db import models
+from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
+from django.shortcuts import render
 
 # List all items
 
@@ -219,7 +224,9 @@ def item_form(request):
         memo_content = request.POST.get('memo_content')
         memo_recomm_by = request.POST.get('memo_recomm_by')
         memo_approved_by = request.POST.get('memo_approved_by')
-        memo_file = request.FILES.get('memo_file')
+        # File upload handling
+        memo_file = request.FILES.get('dropzone-file') or request.FILES.get('memo_file')
+        # Save to Memorandum model
         Memorandum.objects.create(
             memo_no=memo_no,
             memo_date=memo_date,
@@ -237,3 +244,96 @@ def item_form(request):
         )
         return render(request, 'pages/item_form.html', {'success': True})
     return render(request, 'pages/item_form.html')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'pages/login.html', {'form': {}, 'error': True})
+    return render(request, 'pages/login.html', {'form': {}})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def reports(request):
+    # List of all document models and their display names
+    from .models import Memorandum, TravelOrder, SpecialOrder, CommunicationLetter, MOAU
+    doc_models = [
+        (Memorandum, 'Memorandum', 'memo_no'),
+        (TravelOrder, 'Travel Order', 'to_no'),
+        (SpecialOrder, 'Special Order', 'so_no'),
+        (CommunicationLetter, 'Communication Letter', 'letter_no'),
+        (MOAU, 'MOAU', 'moau_no'),
+    ]
+    doc_counts = []
+    for model, name, pk in doc_models:
+        doc_counts.append({'type': name, 'count': model.objects.count()})
+
+    # Monthly report (all types combined)
+    # We'll use Memorandum as an example; repeat for all models and sum per month
+    from collections import Counter
+    monthly_counter = Counter()
+    for model, _, pk in doc_models:
+        qs = model.objects.annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count(pk)).order_by('month')
+        for row in qs:
+            if row['month']:
+                key = row['month'].strftime('%Y-%m')
+                monthly_counter[key] += row['count']
+    # Prepare data for chart.js
+    months = sorted(monthly_counter.keys())
+    counts = [monthly_counter[m] for m in months]
+    monthly_data = {'labels': months, 'counts': counts}
+
+    return render(request, 'pages/reports.html', {
+        'doc_counts': doc_counts,
+        'monthly_data': monthly_data,
+    })
+
+def user_document_list(request):
+    # For now, use the same logic as item_list
+    memos = list(Memorandum.objects.all())
+    for m in memos:
+        m._doc_type = 'memorandum'
+    tos = list(TravelOrder.objects.all())
+    for t in tos:
+        t._doc_type = 'travelorder'
+    sos = list(SpecialOrder.objects.all())
+    for s in sos:
+        s._doc_type = 'specialorder'
+    cls = list(CommunicationLetter.objects.all())
+    for c in cls:
+        c._doc_type = 'commletter'
+    moa_us = list(MOAU.objects.all())
+    for mo in moa_us:
+        mo._doc_type = 'moau'
+    items = memos + tos + sos + cls + moa_us
+    def get_date(obj):
+        return getattr(obj, 'memo_date', None) or getattr(obj, 'date_issued', None) or getattr(obj, 'so_date', None) or getattr(obj, 'approved_date', None) or getattr(obj, 'id', 0)
+    items = sorted(items, key=get_date, reverse=True)
+    return render(request, 'pages/user-document_list.html', {'items': items})
+
+def user_notification(request):
+    # Example: static notifications for UI demo
+    notifications = [
+        {
+            'doc_id': 'MEMO-001',
+            'type': 'Memorandum',
+            'subject': 'Subject about you',
+            'related': 'You are the recipient',
+            'date': '2025-06-27',
+        },
+        {
+            'doc_id': 'TO-002',
+            'type': 'Travel Order',
+            'subject': 'Trip to Manila',
+            'related': 'You are included',
+            'date': '2025-06-25',
+        },
+    ]
+    return render(request, 'pages/user-notification.html', {'notifications': notifications})

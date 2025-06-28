@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Notifications</title>
+  <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+<nav class="bg-green-700 p-4 md:p-6 text-white flex flex-col md:flex-row md:justify-between md:items-center">
+        <div class="flex flex-row items-center space-x-4 mb-4 md:mb-0">
+            <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="size-12 md:w-12" />
+            <p class="font-semibold text-lg md:text-xl">Document Storage</p>
+        </div>
+        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mr-5">
+            <li>
+                <a href="{% url 'user_document_list' %}" class="relative inline-block group text-white">
+                    Documents
+                </a>
+            </li>
+
+            <!-- Notification Icon -->
+            <li class="relative">
+                <a href="#" class="text-white hover:text-gray-300">
+                    <!-- Bell Icon (Heroicons - Outline) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+
+                    <!-- Optional Notification Badge -->
+                    <span class="absolute left-0 -bottom-1 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'logout' %}" class="relative inline-block group text-white">
+                    Logout
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+
+  <!-- Notifications Page Content -->
+  <main class="w-full flex-1 bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white rounded shadow p-6">
+      <h1 class="text-2xl font-bold mb-6">Notifications</h1>
+
+      <!-- Filter (non-functional) -->
+      <div class="flex space-x-6 border-b border-gray-200 mb-4 pb-2 text-gray-600 text-sm font-medium">
+        <button class="hover:text-green-700">All</button>
+        <button class="hover:text-green-700">Unread</button>
+      </div>
+
+      <!-- Notification List -->
+      <div class="space-y-4">
+
+        <!-- Notification Item -->
+        <a href="#" class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-100 transition">
+          <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full">
+          <div class="flex-1">
+            <p class="text-sm text-gray-800">
+              <span class="font-semibold">John Doe</span> shared a document with you.
+            </p>
+            <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
+          </div>
+          <span class="w-2 h-2 bg-blue-600 rounded-full mt-2"></span>
+        </a>
+
+        <!-- Notification Item -->
+        <a href="#" class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-100 transition">
+          <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full">
+          <div class="flex-1">
+            <p class="text-sm text-gray-800">
+              <span class="font-semibold">Jane Smith</span> uploaded a new version of the project plan.
+            </p>
+            <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
+          </div>
+        </a>
+
+        <!-- Notification Item -->
+        <a href="#" class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-100 transition">
+          <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full">
+          <div class="flex-1">
+            <p class="text-sm text-gray-800">
+              <span class="font-semibold">Admin</span> granted you access to a shared folder.
+            </p>
+            <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+          </div>
+          <span class="w-2 h-2 bg-blue-600 rounded-full mt-2"></span>
+        </a>
+
+        <!-- No more notifications -->
+        <p class="text-center text-gray-500 text-sm mt-8">You’re all caught up!</p>
+
+      </div>
+    </div>
+  </main>
+</body>
+</html>

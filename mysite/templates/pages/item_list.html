@@ -4,23 +4,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document List</title>
+    <title>Document Storage Home</title>
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-    <nav class="bg-green-700 p-4 md:p-6 text-white flex flex-col md:flex-row md:justify-between md:items-center">
-        <div class="flex flex-row items-center space-x-4 mb-4 md:mb-0">
-            <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="size-12 md:w-12" />
-            <p class="font-semibold text-lg md:text-xl">Document Storage</p>
-        </div>
-        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mr-5">
-            <li><a href="/" class="text-white">Home</a> </li>
-            <li><a href="{% url 'item_list' %}" class="relative inline-block group text-white">Documents
-                <span class="absolute left-0 -bottom-1 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                </a></li>
-        </ul>
-    </nav>
-    <main class="w-full flex-1 flex bg-gray-200 p-6">
+<body class="bg-gray-200 min-h-screen flex flex-col">
+    <div class="flex min-h-screen">
+        <aside class="bg-green-700 text-white w-60 flex flex-col py-8 px-4 min-h-screen fixed">
+            <div class="flex flex-col items-center mb-10">
+                <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="w-24 mb-2" />
+                <p class="font-semibold text-xl">Document Archiving</p>
+            </div>
+            <!-- Include this in your <head> or before </body> if needed -->
+            <!-- No extra script needed for Heroicons if you're using inline SVG -->
+
+        <nav class="flex-1">
+            <ul class="space-y-4">
+
+                <!-- Dashboard -->
+                <li>
+                    <a href="/" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                        <!-- Home Icon -->
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 9.75L12 3l9 6.75V19a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 19V9.75z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 22V12h6v10" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- Add Documents (Dropdown) -->
+                <li class="relative group">
+                    <button onclick="toggleDropdown()" class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                        <span class="flex items-center space-x-2">
+                            <!-- Icon -->
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span>Add Documents</span>
+                        </span>
+                        <!-- Dropdown arrow -->
+                        <svg class="w-4 h-4 ml-2 transition-transform transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Items -->
+                    <ul id="dropdownMenu" class="mt-2 ml-6 hidden space-y-2">
+                        <li><a href="{% url 'item_create' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>📄</span><span>Memorandum</span>
+                        </a></li>
+                        <li><a href="{% url 'to_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>✈️</span><span>Travel Order</span>
+                        </a></li>
+                        <li><a href="{% url 'so_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>📌</span><span>Special Order</span>
+                        </a></li>
+                        <li><a href="{% url 'cl_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>💬</span><span>Communication Letter</span>
+                        </a></li>
+                        <li><a href="{% url 'moau_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>📎</span><span>MOAU</span>
+                        </a></li>
+                        <li><a href="#" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                            <span>🛒</span><span>Procurement Documents</span>
+                        </a></li>
+                    </ul>
+                </li>
+
+                <!-- Documents -->
+                <li class="bg-white text-green-600 rounded">
+                    <a href="{% url 'item_list' %}" class="flex items-center space-x-2 py-2 px-4 bg-white text-green-600 rounded">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10m-6 4h6" />
+                        </svg>
+                        <span class="font-semibold">Documents</span>
+                    </a>
+                </li>
+
+                <!-- Reports -->
+                <li>
+                    <a href="{% url 'reports' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h6M7 9h10M5 13h14M7 17h10" />
+                        </svg>
+                        <span>Reports</span>
+                    </a>
+                </li>
+
+                <!-- Logout -->
+                <li>
+                    <a href="{% url 'logout' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-13V4m0 0H6a2 2 0 00-2 2v12a2 2 0 002 2h7" />
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        </aside>
+
+        <main class="w-full flex-1 flex bg-gray-200 ml-64 mr-5 my-5">
          <div class="w-full bg-white rounded shadow p-8">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold">Documents List</h1>
@@ -93,18 +180,44 @@
             </div>
         </div>
     </main>
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const addDropdownButton = document.getElementById('addDropdownButton');
-const addDropdownMenu = document.getElementById('addDropdownMenu');
-addDropdownButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    addDropdownMenu.classList.toggle('hidden');
-});
-document.addEventListener('click', function(e) {
-    if (!addDropdownButton.contains(e.target) && !addDropdownMenu.contains(e.target)) {
-        addDropdownMenu.classList.add('hidden');
+  document.addEventListener('DOMContentLoaded', function () {
+    // 🔽 Toggle Dropdown Menu
+    window.toggleDropdown = function () {
+      const menu = document.getElementById('dropdownMenu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    };
+
+    // ❌ Dismiss Alert Box
+    const closeBtn = document.getElementById('closeAlertBtn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        const alertBox = document.getElementById('welcomeAlert');
+        if (alertBox) {
+          alertBox.classList.add('hidden');
+        }
+      });
     }
-});
+
+    const addDropdownButton = document.getElementById('addDropdownButton');
+    const addDropdownMenu = document.getElementById('addDropdownMenu');
+    addDropdownButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        addDropdownMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function(e) {
+        if (!addDropdownButton.contains(e.target) && !addDropdownMenu.contains(e.target)) {
+            addDropdownMenu.classList.add('hidden');
+        }
+    });
+
+
+  });
 </script>
+
 </html>

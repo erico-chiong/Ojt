@@ -13,4 +13,9 @@ urlpatterns = [
     path('cl_form/', views.cl_form, name='cl_form'),
     path('moau_form/', views.moau_form, name='moau_form'),
     path('item_form/', views.item_form, name='item_form'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('reports/', views.reports, name='reports'),
+    path('user-documents/', views.user_document_list, name='user_document_list'),
+    path('user-notification/', views.user_notification, name='user_notification'),
 ]

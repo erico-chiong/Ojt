@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document List</title>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <nav class="bg-green-700 p-4 md:p-6 text-white flex flex-col md:flex-row md:justify-between md:items-center">
+        <div class="flex flex-row items-center space-x-4 mb-4 md:mb-0">
+            <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="size-12 md:w-12" />
+            <p class="font-semibold text-lg md:text-xl">Document Storage</p>
+        </div>
+        <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mr-5">
+            <li>
+                <a href="{% url 'user_document_list' %}" class="relative inline-block group text-white">
+                    Documents
+                    <span class="absolute left-0 -bottom-1 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                </a>
+            </li>
+
+            <!-- Notification Icon -->
+            <li class="relative">
+                <a href="{% url 'user_notification' %}" class="text-white hover:text-gray-300">
+                    <!-- Bell Icon (Heroicons - Outline) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+
+                    <!-- Optional Notification Badge -->
+                    <span class="absolute top-0 right-0 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'logout' %}" class="relative inline-block group text-white">
+                    Logout
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+    <main class="w-full flex-1 flex bg-gray-200 p-6">
+         <div class="w-full bg-white rounded shadow p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">Document List</h1>
+                <div class="relative inline-block text-left">
+                <div id="addDropdownMenu" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-10">
+                    <div class="py-1">
+                        <a href="{% url 'item_create' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">Memorandum</a>
+                        <a href="{% url 'to_form' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-100">Travel Order</a>
+                        <a href="{% url 'so_form' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-100">Special Order</a>
+                        <a href="{% url 'cl_form' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-100">Communication Letter</a>
+                        <a href="{% url 'moau_form' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100">MOAU</a>
+                        <!-- Add more forms as needed -->
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div>
+                 <form method="get" action="" class="flex mb-6">
+                    <input type="text" name="q" placeholder="Search by name or description..." class="flex-1 border border-gray-300 rounded-l px-4 py-2 focus:outline-none" value="{{ request.GET.q }}">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-r hover:bg-green-700">Search</button>
+                </form>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left text-gray-500">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+        <tr>
+            <th scope="col" class="px-4 py-2">Document Id</th>
+            <th scope="col" class="px-4 py-2">Date</th>
+            <th scope="col" class="px-4 py-2">Subject</th>
+            <th scope="col" class="px-4 py-2">Purpose</th>
+            <th scope="col" class="px-4 py-2">Send To</th>
+            <th scope="col" class="px-4 py-2 text-center">Actions</th>
+        </tr>
+    </thead>
+        <tbody>
+                {% for item in items %}
+                <tr class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-4 py-2 font-semibold">
+                        {{ item.memo_no|default:item.to_no|default:item.so_no|default:item.letter_no|default:item.moau_no }}
+                    </td>
+                    <td class="px-4 py-2">
+                        {{ item.memo_date|default:item.date_issued|default:item.so_date|default:item.received_date|default:item.approved_date }}
+                    </td>
+                    <td class="px-4 py-2">
+                        {{ item.memo_subject|default:item.place|default:item.so_subject|default:item.subject|default:item.title }}
+                    </td>
+                    <td class="px-4 py-2">
+                        {{ item.memo_recomm_by|default:item.purpose|default:item.so_for|default:item.letter_from|default:item.objective|truncatechars:30 }}
+                    </td>
+                    <td class="px-4 py-2">
+                        {{ item.memo_to|default:item.place|default:item.so_signedby|default:item.letter_to|default:item.notarized_by }}
+                    </td>
+                    <td class="px-4 py-2 text-center">
+                        <!-- You can add edit/delete links for each type here if you implement those views -->
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="px-4 py-2 text-center text-gray-500">No items found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+            </div>
+            <div class="mt-6">
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+const addDropdownButton = document.getElementById('addDropdownButton');
+const addDropdownMenu = document.getElementById('addDropdownMenu');
+addDropdownButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    addDropdownMenu.classList.toggle('hidden');
+});
+document.addEventListener('click', function(e) {
+    if (!addDropdownButton.contains(e.target) && !addDropdownMenu.contains(e.target)) {
+        addDropdownMenu.classList.add('hidden');
+    }
+});
+</script>
+</html>
