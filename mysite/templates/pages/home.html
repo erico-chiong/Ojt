@@ -9,106 +9,140 @@
 </head>
 <body class="bg-gray-200 min-h-screen flex flex-col">
     <div class="flex min-h-screen">
-        <aside class="bg-green-700 text-white w-60 flex flex-col py-8 px-4 min-h-screen fixed">
+        <!-- Sidebar: responsive, collapses on small screens -->
+        <aside class="bg-green-700 text-white w-72 flex flex-col py-8 px-4 min-h-screen fixed z-40 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300" id="sidebar">
             <div class="flex flex-col items-center mb-10">
-                <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="w-24 mb-2" />
-                <p class="font-semibold text-xl">Document Archiving</p>
+                <img src="{% static 'mysite/img/logo.png' %}" alt="Logo" class="w-20 md:w-24 mb-2" />
+                <p class="font-semibold text-lg md:text-xl">Document Archiving</p>
             </div>
-            <!-- Include this in your <head> or before </body> if needed -->
-            <!-- No extra script needed for Heroicons if you're using inline SVG -->
+            <nav class="flex-1">
+                <ul class="space-y-4">
 
-        <nav class="flex-1">
-            <ul class="space-y-4">
-
-                <!-- Dashboard -->
-                <li class="">
-                    <a href="/" class="flex items-center space-x-2 py-2 px-4 bg-white text-green-600 rounded">
-                        <!-- Home Icon -->
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 9.75L12 3l9 6.75V19a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 19V9.75z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 22V12h6v10" />
-                        </svg>
-                        <span class="font-semibold">Dashboard</span>
-                    </a>
-                </li>
-
-                <!-- Add Documents (Dropdown) -->
-                <li class="relative group">
-                    <button onclick="toggleDropdown()" class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
-                        <span class="flex items-center space-x-2">
-                            <!-- Icon -->
+                    <!-- Dashboard -->
+                    <li class="bg-white text-green-600 rounded hover: text-white">
+                        <a href="/" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                            <!-- Home Icon -->
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 9.75L12 3l9 6.75V19a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 19V9.75z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 22V12h6v10" />
                             </svg>
-                            <span>Add Documents</span>
-                        </span>
-                        <!-- Dropdown arrow -->
-                        <svg class="w-4 h-4 ml-2 transition-transform transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
 
-                    <!-- Dropdown Items -->
-                    <ul id="dropdownMenu" class="mt-2 ml-6 hidden space-y-2">
-                        <li><a href="{% url 'item_create' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>📄</span><span>Memorandum</span>
-                        </a></li>
-                        <li><a href="{% url 'to_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>✈️</span><span>Travel Order</span>
-                        </a></li>
-                        <li><a href="{% url 'so_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>📌</span><span>Special Order</span>
-                        </a></li>
-                        <li><a href="{% url 'cl_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>💬</span><span>Communication Letter</span>
-                        </a></li>
-                        <li><a href="{% url 'moau_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>📎</span><span>MOAU</span>
-                        </a></li>
-                        <li><a href="#" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
-                            <span>🛒</span><span>Procurement Documents</span>
-                        </a></li>
-                    </ul>
-                </li>
+                    <!-- Add Documents (Dropdown) -->
+                    <li class="relative group">
+                        <button onclick="toggleDropdown()" class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-green-600 hover:text-white hover:font-bold hover:underline transition">
+                            <span class="flex items-center space-x-2">
+                                <!-- Icon -->
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                <span>Add Documents</span>
+                            </span>
+                            <!-- Dropdown arrow -->
+                            <svg class="w-4 h-4 ml-2 transition-transform transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
 
-                <!-- Documents -->
-                <li>
-                    <a href="{% url 'item_list' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10m-6 4h6" />
-                        </svg>
-                        <span>Documents</span>
-                    </a>
-                </li>
+                        <!-- Dropdown Items -->
+                        <ul id="dropdownMenu" class="mt-2 ml-6 hidden space-y-2">
+                            <li x-data="{ open: false }" class="relative">
+                                <!-- Memorandum Dropdown Trigger -->
+                                <button @click="open = !open"
+                                    class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm w-full text-left">
+                                    <span>📄</span>
+                                    <span>Memorandum</span>
+                                    <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-auto transition-transform"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
-                <!-- Reports -->
-                <li>
-                    <a href="{% url 'reports' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h6M7 9h10M5 13h14M7 17h10" />
-                        </svg>
-                        <span>Reports</span>
-                    </a>
-                </li>
+                                <!-- Dropdown Items -->
+                                <div x-show="open" @click.outside="open = false"
+                                    class="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg z-10 text-gray-700 text-sm">
+                                    <a href="{% url 'item_create' %}?type=incoming"
+                                        class="block px-4 py-2 hover:bg-green-100 hover:text-green-800"><span>⬇️</span>Incoming</a>
+                                    <a href="{% url 'item_create' %}?type=outgoing"
+                                        class="block px-4 py-2 hover:bg-green-100 hover:text-green-800"><span>⬆️</span>Out-going</a>
+                                </div>
+                            </li>
+                            <li><a href="{% url 'to_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                                <span>✈️</span><span>Travel Order</span>
+                            </a></li>
+                            <li><a href="{% url 'so_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                                <span>📌</span><span>Special Order</span>
+                            </a></li>
+                            <li x-data="{ open: false }" class="relative">
+                                <!-- Communication Letter Dropdown Trigger -->
+                                <button @click="open = !open"
+                                    class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm w-full text-left">
+                                    <span>💬</span>
+                                    <span>Communication Letter</span>
+                                    <svg :class="{'rotate-180': open}" class="w-4 h-4 ml-auto transition-transform"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
-                <!-- Logout -->
-                <li>
-                    <a href="{% url 'logout' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-13V4m0 0H6a2 2 0 00-2 2v12a2 2 0 002 2h7" />
-                        </svg>
-                        <span>Logout</span>
-                    </a>
-                </li>
+                                <!-- Dropdown Items -->
+                                <div x-show="open" @click.outside="open = false"
+                                    class="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg z-10 text-gray-700 text-sm">
+                                    <a href="{% url 'cl_form' %}?type=internal"
+                                        class="block px-4 py-2 hover:bg-green-100 hover:text-green-800"><span>⬇️</span>Incoming</a>
+                                    <a href="{% url 'cl_form' %}?type=external"
+                                        class="block px-4 py-2 hover:bg-green-100 hover:text-green-800"><span>⬆️</span>Out-Going</a>
+                                </div>
+                            </li>
 
-            </ul>
-        </nav>
+                            <li><a href="{% url 'moau_form' %}" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                                <span>📎</span><span>MOAU</span>
+                            </a></li>
+                            <li><a href="#" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                                <span>🛒</span><span>Procurement Documents</span>
+                            </a></li>
+
+                            <li><a href="#" class="flex items-center space-x-2 py-1 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition text-sm">
+                                    <span>📂</span><span>Other Document</span>
+                            </a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Documents -->
+                    <li>
+                        <a href="{% url 'item_list' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10m-6 4h6" />
+                            </svg>
+                            <span class="font-semibold">View Documents</span>
+                        </a>
+                    </li>
+
+                    <!-- Logout -->
+                    <li>
+                        <a href="{% url 'logout' %}" class="flex items-center space-x-2 py-2 px-4 rounded hover:bg-green-600 hover:font-bold hover:underline transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-13V4m0 0H6a2 2 0 00-2 2v12a2 2 0 002 2h7" />
+                            </svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
         </aside>
-
-        <main class="ml-64 w-full bg-white my-5 mx-5 p-5 rounded-xl">
-           <div id="welcomeAlert" class="bg-green-100 border-l-4 border-green-600 text-green-800 p-4 rounded mb-6 flex justify-between items-start">
+        <!-- Sidebar toggle button for mobile -->
+        <button id="sidebarToggle" class="fixed top-4 left-4 z-50 bg-green-700 text-white p-2 rounded shadow-lg md:hidden">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <main class=" w-full bg-white my-5 mx-0 md:mx-5 p-2 sm:p-4 md:p-5 rounded-xl transition-all duration-300">
+           <div id="welcomeAlert" class="bg-green-100 border-l-4 border-green-600 text-green-800 p-4 rounded mb-6 flex flex-col sm:flex-row justify-between items-start">
                 <div class="flex items-center space-x-3">
                     <!-- Icon -->
                     <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -120,106 +154,268 @@
                     </div>
                 </div>
                 <!-- Dismiss Button -->
-                <button id="closeAlertBtn" class="text-green-600 hover:text-green-800 ml-4">
+                <button id="closeAlertBtn" class="text-green-600 hover:text-green-800 mt-2 sm:mt-0 sm:ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-5 mt-6 md:px-24">
-                <!-- Memorandum -->
-                <div class="h-24 bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Memorandums</h2>
-                    <p class="text-3xl font-bold text-white mt-1">100</p>
+            <div class="flex justify-end mb-4">
+                <select id="summaryFilter" class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none">
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                    <option value="month" selected>Month</option>
+                    <option value="year">Year</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-y-3 gap-x-5 mt-6 md:px-8 lg:px-12">
+                <!-- total documents -->
+                 <div class="w-full h-36 bg-green-600 p-4 rounded-xl shadow-md border-l-4 border-green-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Total Documents</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="totalcard">100</p>
+                    </div>
                 </div>
 
+                <!-- Memorandum -->
+                <div class="w-full h-36 bg-blue-600 p-4 rounded-xl shadow-md border-l-4 border-blue-700 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Memorandums</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="memocard">100</p>
+                    </div>
+                </div>
+
+
                 <!-- Travel Order -->
-                <div class="bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Travel Orders</h2>
-                    <p class="text-3xl font-bold text-white mt-1">200</p>
+                <div class="w-full h-36 bg-red-600 p-4 rounded-xl shadow-md border-l-4 border-red-700 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Travel Order</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="travelcard">200</p>
+                    </div>
                 </div>
 
                 <!-- Special Order -->
-                <div class="bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Special Orders</h2>
-                    <p class="text-3xl font-bold text-white mt-1">300</p>
+                <div class="w-full h-36 bg-yellow-600 p-4 rounded-xl shadow-md border-l-4 border-yellow-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Special Order</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="specialcard">300</p>
+                    </div>
                 </div>
 
                 <!-- Communication Letter -->
-                <div class="bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Comm. Letters</h2>
-                    <p class="text-3xl font-bold text-white mt-1">50</p>
+                <div class="w-full h-36 bg-gray-600 p-4 rounded-xl shadow-md border-l-4 border-gray-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Comm. Letter</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="commcard">50</p>
+                    </div>
                 </div>
 
                 <!-- MOAU -->
-                <div class="h-24 bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">MOAU</h2>
-                    <p class="text-3xl font-bold text-white mt-1">20</p>
+               <div class="w-full h-36 bg-purple-600 p-4 rounded-xl shadow-md border-l-4 border-purple-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">MOAU</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="moaucard">20</p>
+                    </div>
                 </div>
 
                 <!-- Procurement -->
-                <div class="bg-green-600 p-4 rounded shadow border-l-4 border-green-800">
-                    <h2 class="text-sm font-semibold text-white uppercase tracking-wide">Procurement</h2>
-                    <p class="text-3xl font-bold text-white mt-1">10</p>
+                <div class="w-full h-36 bg-blue-700 p-4 rounded-xl shadow-md border-l-4 border-blue-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Proc. Letter</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="proccard">10</p>
+                    </div>
+                </div>
+                <!-- Other Document -->
+                 <div class="w-full h-36 bg-red-600 p-4 rounded-xl shadow-md border-l-4 border-red-800 flex flex-col justify-between">
+                    <h2 class="text-xs md:text-base font-semibold text-white uppercase tracking-wide">Other Documents</h2>
+                    
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-4xl font-bold text-white" id="othercard">1</p>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded shadow mt-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Monthly Uploads</h2>
-                <canvas id="uploadsChart" height="100"></canvas>
-            </div>
             
+            <div class="h-auto p-2 sm:p-4 md:p-6 mt-6 flex flex-col md:flex-row md:space-x-8">
+                <div class="w-full md:w-1/2 flex-1 mb-8 md:mb-0 flex flex-col items-center">
+                    <div class="w-full flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-gray-800">Monthly Uploads</h2>
+                        <select id="uploadsFilter" class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none">
+                            <option value="month">Month</option>
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="year">Year</option>
+                        </select>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <canvas id="uploadsChart" width="320" height="320" class="!w-[90vw] sm:!w-[350px] !h-[320px] sm:!h-[350px]"></canvas>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 flex-1 flex flex-col items-center">
+                    <div class="w-full flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold text-gray-800">Incoming vs Out-going</h2>
+                        <select id="directionFilter" class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none">
+                            <option value="month">Month</option>
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="year">Year</option>
+                        </select>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <canvas id="directionPieChart" width="320" height="320" class="!w-[90vw] sm:!w-[350px] !h-[320px] sm:!h-[350px]"></canvas>
+                    </div>
+                </div>
+            </div>
         </main>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // 🔽 Toggle Dropdown Menu
-    window.toggleDropdown = function () {
-      const menu = document.getElementById('dropdownMenu');
-      if (menu) {
-        menu.classList.toggle('hidden');
-      }
-    };
-
-    // ❌ Dismiss Alert Box
-    const closeBtn = document.getElementById('closeAlertBtn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function () {
-        const alertBox = document.getElementById('welcomeAlert');
-        if (alertBox) {
-          alertBox.classList.add('hidden');
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Sidebar toggle for mobile
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        if (sidebarToggle && sidebar) {
+          sidebarToggle.addEventListener('click', function() {
+            if (sidebar.classList.contains('-translate-x-full')) {
+              sidebar.classList.remove('-translate-x-full');
+            } else {
+              sidebar.classList.add('-translate-x-full');
+            }
+          });
         }
-      });
-    }
 
-    // 📊 Static Bar Chart
-    const ctx = document.getElementById('uploadsChart')?.getContext('2d');
-    if (ctx) {
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ["January", "February", "March", "April", "May", "June"],
-          datasets: [{
-            label: 'Documents Uploaded',
-            data: [50, 75, 60, 90, 40, 65],
-            backgroundColor: '#047857',
-            borderRadius: 4
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                stepSize: 10
+        // 🔽 Toggle Dropdown Menu
+        window.toggleDropdown = function () {
+          const menu = document.getElementById('dropdownMenu');
+          if (menu) {
+            menu.classList.toggle('hidden');
+          }
+        };
+
+        // ❌ Dismiss Alert Box
+        const closeBtn = document.getElementById('closeAlertBtn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function () {
+            const alertBox = document.getElementById('welcomeAlert');
+            if (alertBox) {
+              alertBox.classList.add('hidden');
+            }
+          });
+        }
+
+        // Example datasets for each filter type
+        const uploadsData = {
+          day:   { labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], data: [5, 7, 6, 9, 4, 6, 8] },
+          week:  { labels: ["Week 1", "Week 2", "Week 3", "Week 4"], data: [20, 30, 25, 35] },
+          month: { labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], data: [50, 75, 60, 90, 40, 65] },
+          year:  { labels: ["2020", "2021", "2022", "2023", "2024"], data: [300, 350, 400, 420, 390] }
+        };
+        const directionData = {
+          day:   [3, 2],
+          week:  [15, 10],
+          month: [30, 10],
+          year:  [300, 120]
+        };
+
+        // 📊 Bar Chart
+        const ctx = document.getElementById('uploadsChart')?.getContext('2d');
+        let uploadsChart;
+        if (ctx) {
+          uploadsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: uploadsData.month.labels,
+              datasets: [{
+                label: 'Documents Uploaded',
+                data: uploadsData.month.data,
+                backgroundColor: '#047857',
+                borderRadius: 4
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 10 }
+                }
               }
             }
-          }
+          });
         }
-      });
-    }
-  });
-</script>
 
+        // 📈 Pie Chart
+        const pieCtx = document.getElementById('directionPieChart')?.getContext('2d');
+        let directionChart;
+        if (pieCtx) {
+          directionChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+              labels: ['Incoming', 'Out-Going'],
+              datasets: [{
+                label: 'Document Direction',
+                data: directionData.month,
+                backgroundColor: ['#34D399', '#60A5FA'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: 'top' }
+              }
+            }
+          });
+        }
+
+        // 🔄 Filter logic for bar chart
+        document.getElementById('uploadsFilter').addEventListener('change', function(e) {
+          const val = e.target.value;
+          uploadsChart.data.labels = uploadsData[val].labels;
+          uploadsChart.data.datasets[0].data = uploadsData[val].data;
+          uploadsChart.update();
+        });
+
+        // 🔄 Filter logic for pie chart
+        document.getElementById('directionFilter').addEventListener('change', function(e) {
+          const val = e.target.value;
+          directionChart.data.datasets[0].data = directionData[val];
+          directionChart.update();
+        });
+
+        // Responsive summary filter logic with total and other documents
+        const summaryData = {
+          day:   { memo: 2, travel: 4, special: 6, comm: 1, moau: 0, proc: 1, other: 1 },
+          week:  { memo: 10, travel: 20, special: 30, comm: 5, moau: 2, proc: 3, other: 2 },
+          month: { memo: 100, travel: 200, special: 300, comm: 50, moau: 20, proc: 10, other: 5 },
+          year:  { memo: 1200, travel: 2400, special: 3600, comm: 600, moau: 240, proc: 120, other: 12 }
+        };
+        function updateSummaryCards(val) {
+          document.getElementById('memocard').textContent = summaryData[val].memo;
+          document.getElementById('travelcard').textContent = summaryData[val].travel;
+          document.getElementById('specialcard').textContent = summaryData[val].special;
+          document.getElementById('commcard').textContent = summaryData[val].comm;
+          document.getElementById('moaucard').textContent = summaryData[val].moau;
+          document.getElementById('proccard').textContent = summaryData[val].proc;
+          document.getElementById('othercard').textContent = summaryData[val].other;
+          // Calculate total
+          const total = summaryData[val].memo + summaryData[val].travel + summaryData[val].special + summaryData[val].comm + summaryData[val].moau + summaryData[val].proc + summaryData[val].other;
+          document.getElementById('totalcard').textContent = total;
+        }
+        document.getElementById('summaryFilter').addEventListener('change', function(e) {
+          updateSummaryCards(e.target.value);
+        });
+        // Initial update
+        updateSummaryCards(document.getElementById('summaryFilter').value);
+      });
+    </script>
+</body>
 </html>
